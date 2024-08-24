@@ -1,0 +1,7 @@
+package semrush
+
+// ErrorResponse stores general API error response
+type ErrorResponse struct {
+	Status  int    `json:"status"`
+	Message string `json:"message"`
+}
