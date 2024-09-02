@@ -10,6 +10,7 @@ import (
 
 const (
 	apiName          string = "Semrush"
+	apiUrlAnalytics  string = "https://api.semrush.com/analytics/v1"
 	apiUrlManagement string = "https://api.semrush.com/management/v1"
 	apiUrlReports    string = "https://api.semrush.com/reports/v1"
 )
@@ -64,6 +65,10 @@ func (service *Service) httpRequest(requestConfig *go_http.RequestConfig) (*http
 	}
 
 	return request, response, e
+}
+
+func (service *Service) urlAnalytics(path string) string {
+	return fmt.Sprintf("%s/%s", apiUrlAnalytics, path)
 }
 
 func (service *Service) urlManagement(path string) string {

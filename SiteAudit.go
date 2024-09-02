@@ -28,7 +28,7 @@ type SiteAudit struct {
 	HealthyDelta       int            `json:"healthyDelta"`
 	HaveIssues         int            `json:"haveIssues"`
 	HaveIssuesDelta    int            `json:"haveIssuesDelta"`
-	ExcludedBetaChecks []interface{}  `json:"excludedBetaChecks"`
+	ExcludedBetaChecks []int          `json:"excludedBetaChecks"`
 	Defects            map[string]int `json:"defects"`
 	Markups            struct {
 		TwitterCard     int `json:"twitterCard"`
@@ -85,34 +85,54 @@ type SiteAudit struct {
 			} `json:"stats"`
 		} `json:"budget"`
 	} `json:"crawlability"`
-	CrawlSourceType             int           `json:"crawlSourceType"`
-	GaStatus                    string        `json:"gaStatus"`
-	GaSettings                  interface{}   `json:"gaSettings"`
-	ProductGroup                string        `json:"productGroup"`
-	IsPaid                      bool          `json:"isPaid"`
-	CrawlDelaySettingTypeId     int           `json:"crawlDelaySettingTypeId"`
-	IgnoreRobotsDisallow        bool          `json:"ignoreRobotsDisallow"`
-	CampaignsCount              int           `json:"campaignsCount"`
-	ProjectsCount               int           `json:"projectsCount"`
-	JsRendering                 string        `json:"jsRendering"`
-	JsImpactReportDataAvailable bool          `json:"jsImpactReportDataAvailable"`
-	UserAgentType               int           `json:"user_agent_type"`
-	LastAudit                   int64         `json:"last_audit"`
-	LastFailedAudit             int           `json:"last_failed_audit"`
-	NextAudit                   int64         `json:"next_audit"`
-	RunningPagesCrawled         int           `json:"running_pages_crawled"`
-	RunningPagesLimit           int           `json:"running_pages_limit"`
-	PagesCrawled                int           `json:"pages_crawled"`
-	PagesCrawledDelta           int           `json:"pages_crawled_delta"`
-	PagesLimit                  int           `json:"pages_limit"`
-	TotalChecks                 int           `json:"total_checks"`
-	ErrorsDelta                 int           `json:"errors_delta"`
-	WarningsDelta               int           `json:"warnings_delta"`
-	NoticesDelta                int           `json:"notices_delta"`
-	MaskAllow                   []interface{} `json:"mask_allow"`
-	MaskDisallow                []interface{} `json:"mask_disallow"`
-	RemovedParameters           []interface{} `json:"removedParameters"`
-	ExcludedChecks              []interface{} `json:"excluded_checks"`
+	CrawlSourceType int    `json:"crawlSourceType"`
+	GaStatus        string `json:"gaStatus"`
+	GaSettings      struct {
+		OwnerId int `json:"ownerId"`
+		Account struct {
+			Id    string `json:"id"`
+			Email string `json:"email"`
+		} `json:"account"`
+		Profile struct {
+			Id   string `json:"id"`
+			Name string `json:"name"`
+		} `json:"profile"`
+		Property struct {
+			Id        string `json:"id"`
+			Name      string `json:"name"`
+			Url       string `json:"url"`
+			GaVersion int    `json:"gaVersion"`
+		} `json:"property"`
+		View struct {
+			Id   string `json:"id"`
+			Name string `json:"name"`
+		} `json:"view"`
+	} `json:"gaSettings"`
+	ProductGroup                string   `json:"productGroup"`
+	IsPaid                      bool     `json:"isPaid"`
+	CrawlDelaySettingTypeId     int      `json:"crawlDelaySettingTypeId"`
+	IgnoreRobotsDisallow        bool     `json:"ignoreRobotsDisallow"`
+	CampaignsCount              int      `json:"campaignsCount"`
+	ProjectsCount               int      `json:"projectsCount"`
+	JsRendering                 string   `json:"jsRendering"`
+	JsImpactReportDataAvailable bool     `json:"jsImpactReportDataAvailable"`
+	UserAgentType               int      `json:"user_agent_type"`
+	LastAudit                   int64    `json:"last_audit"`
+	LastFailedAudit             int      `json:"last_failed_audit"`
+	NextAudit                   int64    `json:"next_audit"`
+	RunningPagesCrawled         int      `json:"running_pages_crawled"`
+	RunningPagesLimit           int      `json:"running_pages_limit"`
+	PagesCrawled                int      `json:"pages_crawled"`
+	PagesCrawledDelta           int      `json:"pages_crawled_delta"`
+	PagesLimit                  int      `json:"pages_limit"`
+	TotalChecks                 int      `json:"total_checks"`
+	ErrorsDelta                 int      `json:"errors_delta"`
+	WarningsDelta               int      `json:"warnings_delta"`
+	NoticesDelta                int      `json:"notices_delta"`
+	MaskAllow                   []string `json:"mask_allow"`
+	MaskDisallow                []string `json:"mask_disallow"`
+	RemovedParameters           []string `json:"removedParameters"`
+	ExcludedChecks              []int    `json:"excluded_checks"`
 	CurrentSnapshot             struct {
 		IsPagesLimitReached bool `json:"isPagesLimitReached"`
 		ThematicScores      struct {
@@ -123,15 +143,13 @@ type SiteAudit struct {
 			Linking      ValueDelta `json:"linking"`
 			Markups      ValueDelta `json:"markups"`
 		} `json:"thematicScores"`
-		Errors    []Alert `json:"errors"`
-		Warnings  []Alert `json:"warnings"`
-		Notices   []Alert `json:"notices"`
-		TopIssues []int   `json:"topIssues"`
-		Hidden    struct {
-		} `json:"hidden"`
+		Errors           []Alert        `json:"errors"`
+		Warnings         []Alert        `json:"warnings"`
+		Notices          []Alert        `json:"notices"`
+		TopIssues        []int          `json:"topIssues"`
 		Fixed            map[string]int `json:"fixed"`
 		StatusCodeGroups map[string]int `json:"statusCodeGroups"`
-		ExcludedChecks   []interface{}  `json:"excludedChecks"`
+		ExcludedChecks   []int          `json:"excludedChecks"`
 		SettingsChanged  bool           `json:"settingsChanged"`
 		JsRendering      string         `json:"jsRendering"`
 		SnapshotId       string         `json:"snapshot_id"`
@@ -139,12 +157,9 @@ type SiteAudit struct {
 		PagesCrawled     int            `json:"pages_crawled"`
 		PagesLimit       int            `json:"pages_limit"`
 		FinishDate       int64          `json:"finish_date"`
-		Quality          struct {
-			Value int `json:"value"`
-			Delta int `json:"delta"`
-		} `json:"quality"`
-		UserAgentType int            `json:"user_agent_type"`
-		New           map[string]int `json:"new"`
+		Quality          ValueDelta     `json:"quality"`
+		UserAgentType    int            `json:"user_agent_type"`
+		New              map[string]int `json:"new"`
 	} `json:"current_snapshot"`
 	IsNotify  bool `json:"is_notify"`
 	AmpTotal  int  `json:"ampTotal"`
@@ -166,10 +181,10 @@ type SiteAudit struct {
 		SelfCanonical               int `json:"selfCanonical"`
 		CanonicalToOtherPage        int `json:"canonicalToOtherPage"`
 	} `json:"canonicalization"`
-	UploadUrlsCount   int         `json:"uploadUrlsCount"`
-	CrawlSourceUrl    string      `json:"crawlSourceUrl"`
-	PrecrawlError     interface{} `json:"precrawlError"`
-	IsAllowedStopping bool        `json:"is_allowed_stopping"`
+	UploadUrlsCount   int    `json:"uploadUrlsCount"`
+	CrawlSourceUrl    string `json:"crawlSourceUrl"`
+	PrecrawlError     string `json:"precrawlError"`
+	IsAllowedStopping bool   `json:"is_allowed_stopping"`
 	Robots            struct {
 		Status  int    `json:"status"`
 		Link    string `json:"link"`
